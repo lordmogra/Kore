@@ -1,7 +1,5 @@
 automacro TrainingGrounds {
-  location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1
-  base = 1
-  class = Novice
+  location new_1-1
   call init
   run-once 1
 }
@@ -265,7 +263,7 @@ macro willowHunt {
 
 automacro killPoring {
   location new_1-3
-  console =~ /^You are now attacking Monster Poring/
+  console (/^You are now attacking Monster Poring/)
   call {
     $hunting = Poring
 	release wonTheFight
@@ -275,7 +273,7 @@ automacro killPoring {
 
 automacro killLunatic {
   location new_1-3
-  console =~ /^You are now attacking Monster Lunatic/
+  console (/^You are now attacking Monster Lunatic/)
   call {
     $hunting = Lunatic
 	release wonTheFight
@@ -285,7 +283,7 @@ automacro killLunatic {
 
 automacro killPicky {
   location new_1-3
-  console =~ /^You are now attacking Monster Picky/
+  console (/^You are now attacking Monster Picky/)
   call {
     $hunting = Picky
 	release wonTheFight
@@ -295,7 +293,7 @@ automacro killPicky {
 
 automacro killWillow {
   location new_1-3
-  console =~ /^You are now attacking Monster Willow/
+  console (/^You are now attacking Monster Willow/)
   call {
     $hunting = Willow
 	release wonTheFight
@@ -358,6 +356,7 @@ automacro lostTheFight {
 	:willow
 	release killWillow
 	stop
+  }
 }
 
 macro killedPoring {
