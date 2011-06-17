@@ -1,0 +1,577 @@
+automacro TrainingGrounds {
+  location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1
+  base = 1
+  class = Novice
+  call init
+  run-once 1
+}
+
+macro init {
+  set macro_delay 2
+  do conf autoTalkCont 0
+  do ai manual
+  
+  lock killPoring
+  lock killLunatic
+  lock killPicky
+  lock killWillow
+  lock checkInvValue
+  lock returnToLevel2
+
+  $poringKilled = 0
+  $lunaticsKilled = 0
+  $pickyKilled = 0
+  $willowKilled = 0
+
+  #uncomment one
+  #$job = Super Novice
+  #$job = Swordman
+  #$job = Mage
+  #$job = Archer
+  #$job = Thief
+  #$job = Merchant
+  #$job = Acolyte
+  #$job = Ninja
+  $job = Taekwon Kid
+  #$job = GunSlinger
+
+  call talkToSprakki
+}
+
+macro talkToSprakki {
+
+  log Talking to Sprakki
+  do talknpc 53 114 w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToSprakki2
+}
+
+macro talkToSprakki2 {
+  log Moving across the bridge as the quest tells me to.
+  do move new_1-2 100 27
+
+  log Talking to Sprakki again.
+  do talknpc 100 29 w1 c w1 c w1 r0 w1 c w1 c w1 n
+  pause 5
+
+  call talkToBrade
+}
+
+macro talkToBrade {
+  log Talk to Brade and get the noob pkg
+  do talknpc 100 105 w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+  call equipNoobStuff
+
+  log Talk to Brade again now that I'm wearing his crap.
+  do talknpc 100 105 w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+  do move 115 118
+
+  call talkToJinha
+}
+
+macro equipNoobStuff {
+  do eq @inventory (Novice False Eggshell)
+  pause 1
+  do eq @inventory (Novice Guard)
+  pause 1
+  do eq @inventory (Novice Main-Gauche)
+  pause 1
+  do eq @inventory (Novice Cutter)
+  pause 1
+  do eq @inventory (Somber Novice Hood)
+  pause 1
+  do eq @inventory (Tattered Novice Ninja Suit)
+  pause 1
+  do eq @inventory (Novice Adventurer's Suit [1])
+  pause 1
+  do eq @inventory (Novice Slippers)
+  pause 1
+}
+macro talkToJinha {
+  log Talking to Jinha to get First Aid
+  do talknpc 115 120 w1 c w1 r0 w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToBrade2
+}
+
+macro talkToBrade2 {
+  log Go back to Brade and talk to him again
+  do move 100 103
+  do talknpc 100 105 w1 c w1 c w1 c w1 c w1 n
+  pause 1
+  do eq @inventory (Novice Adventurer's Suit [1])
+  pause 1
+
+  call talkToChocolat
+}
+
+macro talkToChocolat {
+  log Go talk to Chocolat
+  do move new_1-2 35 172
+  do talknpc 33 172 w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToKafra
+}
+
+macro talkToKafra {
+  log Talk to Kafra
+  do talknpc 30 176 w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToCoolEvent
+}
+
+macro talkToCoolEvent {
+  log Talk to Cool Event Staff
+  do talknpc 33 176 w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToSoldier
+}
+
+macro talkToSoldier {
+  log Talk to Soldier
+  do talknpc 36 176 w1 c w1 c w1 n
+  pause 1
+
+  call talkToChocolat2
+}
+
+macro talkToChocolat2 {
+  log Talk to Chocolat again and she teleports me to Brade at the Training Grounds
+  do talknpc 33 172 w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+
+  call talkToBrade3
+}
+
+macro talkToBrade3 {
+  log Talk to Brade who wants me to whack a Poring.
+  do talknpc 96 30 w1 c w1 c w1 c w1 c w1 c w1 n
+  pause 1
+
+  call poringHunt
+}
+
+macro talkToBrade4 {
+  do move 96 32
+  do talknpc 96 30 w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  call getQuests
+}
+
+macro getQuests {
+  log Talk to the Job Guides and get their quests.
+  do move new_1-3 103 39
+
+  log Talk to the Sword Guide
+  do talknpc 97 41 w1 c w1 r2 w1 c w1 c w1 c w1 n #Swordman
+  pause 1
+
+  log Talk to the Mage Guide
+  do talknpc 101 41 w1 c w1 r2 w1 c w1 c w1 n #Mage
+  pause 1
+
+  log Talk to the Thief Guide
+  do talknpc 105 41 w1 c w1 r2 w1 c w1 c w1 n #Thief
+  pause 1
+
+  log Talk to the Merchant Guide
+  do talknpc 109 41 w1 c w1 r2 w1 c w1 c w1 n #Merchant
+  
+  call lunaticHunt
+}
+
+macro finishMageGuideQuest {
+  do ai manual
+  log Return to Mage Guide and Finish Quest
+
+  do move 103 39
+  do talknpc 101 41 w1 c w1 c w1 r3 w1 n
+  pause 1
+
+  call goToLevel2
+  call pickyHunt
+}
+
+macro finishSwordGuideQuest {
+  do ai manual
+  log Return to Sword Guide and Finish Quest
+
+  do move 103 39
+  do talknpc 97 41 w1 c w1 c w1 r3 w1 n
+  
+  call willowHunt
+}
+
+macro finishThiefGuideQuest {
+  log Return to Thief Guide and Finish Quest
+  lock killWillow
+
+  do move new_1-3 103 39
+  do talknpc 105 41 w1 c w1 c w1 r3 w1 n
+  
+  call checkInvValue
+}
+
+automacro returnToLevel2 {
+  location new_1-3
+  hp = 100%
+  call goToLevel2
+  run-once 1
+}
+
+macro goToLevel2 {
+  do move 100 47
+  do talknpc 103 50 w1 c w1 c w1 c w1 r0 w1 c w1 r0 w1 n
+  release returnToLevel2
+}
+
+macro poringHunt {
+  do conf attackAuto 2
+  do conf route_randomWalk 1
+  do ai auto
+
+  release killPoring
+}
+
+macro lunaticHunt {
+  do conf attackAuto 2
+  do conf route_randomWalk 1
+  do ai auto
+
+  release killLunatic
+}
+
+macro pickyHunt {
+  do conf attackAuto 2
+  do conf route_randomWalk 1
+  do ai auto
+
+  release killPicky
+}
+
+macro willowHunt {
+  do conf attackAuto 2
+  do conf route_randomWalk 1
+  do ai auto
+
+  release killWillow
+}
+
+automacro killPoring {
+  location new_1-3
+  console =~ /^You are now attacking Monster Poring/
+  call {
+    $hunting = Poring
+	release wonTheFight
+	release lostTheFight
+  }
+}
+
+automacro killLunatic {
+  location new_1-3
+  console =~ /^You are now attacking Monster Lunatic/
+  call {
+    $hunting = Lunatic
+	release wonTheFight
+	release lostTheFight
+  }
+}
+
+automacro killPicky {
+  location new_1-3
+  console =~ /^You are now attacking Monster Picky/
+  call {
+    $hunting = Picky
+	release wonTheFight
+	release lostTheFight
+  }
+}
+
+automacro killWillow {
+  location new_1-3
+  console =~ /^You are now attacking Monster Willow/
+  call {
+    $hunting = Willow
+	release wonTheFight
+	release lostTheFight
+  }
+}
+
+automacro wonTheFight {
+  location new_1-3, new_2-3
+  console =~ /Exp$/
+  call {
+    lock lostTheFight
+	
+	if ($hunting == Poring) goto poring
+	if ($hunting == Lunatic) goto lunatic
+	if ($hunting == Picky) goto picky
+	if ($hunting == Willow) goto willow
+	
+	:poring
+	call killedPoring
+	stop
+	
+	:lunatic
+	call killedLunatic
+	stop
+	
+	:picky
+	call killedPicky
+	stop
+	
+	:willow
+	call killedWillow
+	stop
+  }
+}
+
+automacro lostTheFight {
+  location new_1-3, new_2-3
+  console =~ /^You have died/
+  call {
+    lock wonTheFight
+	
+	if ($hunting == Poring) goto poring
+	if ($hunting == Lunatic) goto lunatic
+	if ($hunting == Picky) goto picky
+	if ($hunting == Willow) goto willow
+	
+	:poring
+	release killPoring
+	stop
+	
+	:lunatic
+	release killLunatic
+	stop
+	
+	:picky
+	release killPicky
+	stop
+	
+	:willow
+	release killWillow
+	stop
+}
+
+macro killedPoring {
+  do ai manual
+  if ($poringsKilled >= 1) goto lock
+  $poringsKilled = eval($poringsKilled + 1)
+  
+  call talkToBrade4
+  
+  :lock
+  lock killPoring
+}
+
+macro killedLunatic {
+  if ($lunaticsKilled >= 5) goto lock
+  do ai manual
+ 
+  $lunaticsKilled = @eval ($lunaticsKilled + 1)
+  
+  log $lunaticsKilled Lunatics killed so far.
+
+  if ($lunaticsKilled >= 5) call finishMageGuideQuest
+
+  :lock
+  lock killLunatic
+}
+
+macro killedPicky {
+  if ($pickyKilled >= 2) goto lock
+  do ai manual
+ 
+  $pickyKilled = @eval ($pickyKilled + 1)
+  
+  log $pickyKilled Pickies killed so far.
+
+  if ($pickyKilled >= 2) call finishSwordGuideQuest
+
+  :lock
+  lock killPicky
+}
+
+macro killedWillow {
+  if ($willowKilled >= 5) goto lock
+  do ai manual
+
+  if ($willowKilled < 1) goto assign
+ 
+  $willowKilled = @eval ($willowKilled + 1)
+  
+  log $willowKilled Willow killed so far.
+
+  if ($willowKilled >= 5) call finishThiefGuideQuest
+  
+  :lock
+  lock killWillow
+}
+
+automacro checkInvValue {
+  location new_1-3, new_2-3
+  disabled 1
+  call checkInvValue
+  timeout 3000
+}
+
+macro checkInvValue {
+  $numFeather = @invamount (Feather)
+  $numClover = @invamount (Clover)
+  $numApple = @invamount (Apple)
+  $numFofBirds = @invamount (Feather of Birds)
+  $numRoot = @invamount (Tree Root)
+  $numWebFoot = @invamount (Sticky Webfoot)
+  $numTalon = @invamount (Talon)
+
+  $valShirt = 3
+  $valKnife = 31
+  $valFeather = @eval($numFeather*9)
+  $valClover = @eval($numClover*4)
+  $valApple = @eval($numApple*9)
+  $valFofBirds = @eval($numFofBirds*4)
+  $valRoot = @eval($numRoot*5)
+  $valWebFoot = @eval($numWebFoot*9)
+  $valTalon = @eval($numTalon*9)
+  
+  $invValue = @eval($valShirt+$valKnife+$valFeather+$valClover+$valApple+$valFofBirds+$valRoot+$valWebFoot+$valTalon)
+
+  log Inventory value is $invValue z.
+  if ($invValue >= 300) goto sell
+  log Not enough, let's kill!
+  
+  do ai auto
+  do conf attackAuto 2
+  release checkInvValue
+  stop
+
+  :sell
+  log Finally! Time to Sell!
+  call sellCrap
+}
+
+macro sellCrap {
+  do ai manual
+
+  log Get Merchant Skillz.
+  do move 106 46
+  do talknpc 109 41 w1 c w1 c w1 c r0 w1 c w1 c w1 c w1 c w1 c w1 r0 w1 c w1 c w1 n #Merchant
+  pause 1
+  call equipNoobStuff
+  pause 1
+  do eq @inventory (Merchant Manual)
+  pause 1
+  do talknpc 100 50 w1 s
+  
+  do sell @inventory (Cotton Shirt)
+  pause 1
+  do sell @inventory (Knife [3])
+  pause 1
+  do sell @inventory (Feather)
+  pause 1
+  do sell @inventory (Clover)
+  pause 1
+  do sell @inventory (Apple)
+  pause 1
+  do sell @inventory (Feather of Birds)
+  pause 1
+  do sell @inventory (Tree Root)
+  pause 1
+  do sell @inventory (Sticky Webfoot)
+  pause 1
+  do sell done
+
+  do talknpc 109 41 w1 c w1 c w1 r3 w1 n
+
+  call getJob
+}
+
+macro getJob {
+  if ($.lvl < 10 || $.joblvl < 10) goto level
+
+
+  if ($job == Super Novice) call becomeSuperNovice
+  if ($job == Swordman) call becomeSwordman
+  if ($job == Mage) call becomeMage
+  if ($job == Archer) call becomeArcher
+  if ($job == Thief) call becomeThief
+  if ($job == Merchant) call becomeMerchant
+  if ($job == Acolyte) call becomeAcolyte
+  if ($job == Ninja) call becomeNinja
+  if ($job == Taekwon Kid) call becomeTaekwonKid
+  if ($job == GunSlinger) call becomeGunslinger
+  stop
+
+  :level
+  do ai auto
+  do conf attackAuto 2
+}
+
+macro becomeSuperNovice {
+  if ($.map != "new_1-3" && $.map != "new_2-3") goto prontera
+  do talknpc 97 50 w1 c w1 r0 w1 c w1 c w1 r0 w1 n
+  pause 5
+  :prontera
+  do move prt_fild08
+  do ai auto
+}
+macro becomeSwordman {
+  do move izlude_in 74 168
+}
+
+macro becomeTaekwonKid {
+  if ($.map != "new_1-3" && $.map != "new_2-3") goto payon
+  do talknpc 97 50 w1 c w1 r0 w1 c w1 c w1 r2 w1 n
+  pause 5
+  :payon
+  do move payon
+  #do talknpc 158 40 w1 c w1 c w1 c w1 c w1 c w1 r0 w1 c w1 c w1 n
+  do move pay_fild01
+  do conf lockMap pay_fild01
+  do ai auto
+  $startingLvl = $.lvl
+  release taekwonQuest
+  #do talknpc 158 40 
+}
+
+automacro taekwonQuest {
+  class Novice
+  location pay_fild01
+  disabled 1
+  call {
+    log Starting: $startingLvl, Current: $.lvl
+    if ($.lvl > $startingLvl) call becomeTaekwonKid2
+  }
+  timeout 60
+}
+
+macro becomeTaekwonKid2 {
+  do ai manual
+  do move payon
+  do talknpc 158 40 w1 n
+  pause 1
+  do talknpc 158 40 w1 c w1 c w1 c w1 r0 w1 c w1 c w1 c w1 c w1 c w1 r2 w1 c w1 c w1 c w1 n
+  do talknpc 158 40 w1 c w1 c w1 r0 w1 c w1 c w1 c w1 c w1 c w1 c w1 n
+  do move pay_fild01
+  do ai auto
+}
+
+automacro trainingHeal {
+  location new_1-3, new_2-3
+  hp < 70%
+  aggressives = 0
+  call getHealFromBrade
+  timeout 30
+}
+
+macro getHealFromBrade {
+  do move 96 32
+  do talknpc 96 30 w1 c w1 c w1 n
+}
